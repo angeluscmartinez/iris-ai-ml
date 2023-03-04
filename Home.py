@@ -5,9 +5,8 @@ import openai
 import json
 from streamlit_lottie import st_lottie
 
-
 headers = {
-    "authorization": st.secrets["api_key"],
+    "authorization": st.secrets["openai.api_key"],
     "content-type": "application/python"
 }
 
