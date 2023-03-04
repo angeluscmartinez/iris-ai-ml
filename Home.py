@@ -5,7 +5,7 @@ import openai
 import json
 from streamlit_lottie import st_lottie
 
-openai.api_key = st.secrets["api_key"]
+openai.api_key = st.secrets["API_key"]
 
 #headers = {
 #    "authorization": st.secrets["openai.api_key"],
