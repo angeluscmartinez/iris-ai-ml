@@ -31,7 +31,7 @@ with col1:
     header = st.title("Welcome to iRIS Sage Artificial Intelligence")
 
 with col2:
-    lottie_coding = load_lottiefile("lotties/coding.json")
+    lottie_coding = load_lottiefile("coding.json")
     st_lottie(
         lottie_coding,
         speed=2,
