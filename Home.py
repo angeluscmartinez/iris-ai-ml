@@ -5,10 +5,12 @@ import openai
 import json
 from streamlit_lottie import st_lottie
 
-headers = {
-    "authorization": st.secrets["openai.api_key"],
-    "content-type": "application/python"
-}
+openai.api_key = st.secrets["openai.api_key"]
+
+#headers = {
+#    "authorization": st.secrets["openai.api_key"],
+#    "content-type": "application/python"
+#}
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
