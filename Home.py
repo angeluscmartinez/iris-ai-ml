@@ -4,9 +4,12 @@ import matplotlib.pyplot as plt
 import openai
 import json
 from streamlit_lottie import st_lottie
-import creds
 
-openai.api_key = creds.api_key
+
+headers = {
+    "authorization": st.secrets["api_key"],
+    "content-type": "application/python"
+}
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
@@ -14,7 +17,6 @@ def load_lottiefile(filepath: str):
 
 st.set_page_config(page_title="AskiRIS", page_icon=":guardsman:")
 image = st.image("Picture1.png", use_column_width=False)
-
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
@@ -29,7 +31,7 @@ with col1:
     header = st.title("Welcome to iRIS Sage Artificial Intelligence")
 
 with col2:
-    lottie_coding = load_lottiefile("coding.json")
+    lottie_coding = load_lottiefile("lotties/coding.json")
     st_lottie(
         lottie_coding,
         speed=2,
