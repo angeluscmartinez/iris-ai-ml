@@ -6,7 +6,7 @@ import altair as alt
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
 
-#st.set_page_config(page_title="AskiRIS", page_icon=":guardsman:")
+#st.set_page_config(page_title="iRIS-Sage", page_icon=":guardsman:")
 image = st.image("Picture1.png", use_column_width=False)
 hide_st_style = """
             <style>
@@ -17,7 +17,7 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 #Set the page title to the name of the CSV file
 def get_title(filename):
-    return "iRIS Sage Linear Regression: " + filename
+    return "iRIS Sage Logistic Regression: " + filename
 
 def main():
     # Load the available pickle files

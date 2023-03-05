@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import t
 
-st.set_page_config(page_title="AskiRIS", page_icon=":guardsman:")
+st.set_page_config(page_title="iRIS-Sage", page_icon=":guardsman:")
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
