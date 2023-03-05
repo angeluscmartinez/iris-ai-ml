@@ -16,7 +16,7 @@ def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
         return json.load(f)
 
-st.set_page_config(page_title="AskiRIS", page_icon=":guardsman:")
+st.set_page_config(page_title="iRIS-Sage", page_icon=":guardsman:")
 image = st.image("Picture1.png", use_column_width=False)
 hide_st_style = """
             <style>
