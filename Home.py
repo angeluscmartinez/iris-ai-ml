@@ -74,7 +74,7 @@ def generate_response(prompt):
         return ""
     else:
         completions = openai.Completion.create(
-            engine="gpt-3.5-turbo-instruct",
+            engine="gpt-4-0125-preview",
             prompt=prompt,
             max_tokens=4000,
             n=1,
