@@ -13,7 +13,9 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-prompt = st.chat_input("Say something")
+# Use st.text_input() instead of st.chat_input() for broader compatibility
+prompt = st.text_input("Say something", "")
+
 if prompt:
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -33,3 +35,4 @@ if prompt:
             st.write(response_text)  # Display the response
 
     st.session_state.messages.append({"role": "assistant", "content": response_text})  # Store response correctly
+
