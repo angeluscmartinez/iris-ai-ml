@@ -5,8 +5,8 @@ import json
 from streamlit_lottie import st_lottie
 import io
 
-# Initialize OpenAI client with API key (Correct for v1.66.2)
-client = openai.OpenAI(api_key=st.secrets["API_key"])
+# Correctly initialize OpenAI client for v1.66.2
+client = openai.Client(api_key=st.secrets["API_key"])
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
