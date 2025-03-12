@@ -29,7 +29,7 @@ def get_title(filename):
 def app():
     # Set the page title and file upload widget
     st.set_page_config(page_title="iRIS-Sage", page_icon=":guardsman:")
-    image = st.image("Picture1.png", use_column_width=False)
+    image = st.image("Picture1.png", use_container_width=False)
     hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}

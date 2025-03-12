@@ -13,7 +13,7 @@ hide_st_style = """
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
-image = st.image("Picture1.png", use_column_width=False)
+image = st.image("Picture1.png", use_container_width=False)
 header = st.title("iRIS Sage Statistical Analysis")
 
 def t_distribution_analysis(data, column, confidence_level):
@@ -38,23 +38,22 @@ def rss_analysis(data, column):
 
 def plot_t_distribution(data, column, confidence_level):
     mean, lower_bound, upper_bound = t_distribution_analysis(data, column, confidence_level)
-    plt.clf()
-    plt.hist(data[column], bins=30, density=True)
+    fig, ax = plt.subplots()
+    ax.hist(data[column], bins=30, density=True)
     x = np.linspace(data[column].min(), data[column].max(), 100)
     y = t.pdf(x, df=len(data[column]) - 1, loc=mean, scale=data[column].std())
-    plt.plot(x, y, label='t-distribution')
-    plt.axvline(x=lower_bound, color='red', label='lower bound')
-    plt.axvline(x=upper_bound, color='green', label='upper bound')
-    plt.axvline(x=mean, color='blue', label='mean')
-    plt.legend(loc='center right')
-    plt.text(0.95, 0.95, "Max: {:.2f}".format(data[column].max()), transform=plt.gca().transAxes, ha='right', va='top')
-    plt.text(0.95, 0.90, "Mean: {:.2f}".format(mean), transform=plt.gca().transAxes, ha='right', va='top')
-    plt.text(0.95, 0.85, "Min: {:.2f}".format(data[column].min()), transform=plt.gca().transAxes, ha='right', va='top')
+    ax.plot(x, y, label='t-distribution')
+    ax.axvline(x=lower_bound, color='red', label='lower bound')
+    ax.axvline(x=upper_bound, color='green', label='upper bound')
+    ax.axvline(x=mean, color='blue', label='mean')
+    ax.legend(loc='center right')
+    ax.text(0.95, 0.95, "Max: {:.2f}".format(data[column].max()), transform=ax.transAxes, ha='right', va='top')
+    ax.text(0.95, 0.90, "Mean: {:.2f}".format(mean), transform=ax.transAxes, ha='right', va='top')
+    ax.text(0.95, 0.85, "Min: {:.2f}".format(data[column].min()), transform=ax.transAxes, ha='right', va='top')
 
-    # Add title to the plot
-    plt.title(f"T-Square Analysis for {column} Column")
+    ax.set_title(f"T-Square Analysis for {column} Column")
 
-    st.pyplot()
+    st.pyplot(fig)
 
 def plot_rss_distribution(data, column):
     mean = data[column].mean()
@@ -62,25 +61,22 @@ def plot_rss_distribution(data, column):
     upper_bound = data[column].quantile(0.95)
     x = np.linspace(data[column].min(), data[column].max(), 1000)
     y = np.exp(-0.5 * ((x - mean) / np.sqrt(mean**2 + upper_bound**2 - 2 * mean * upper_bound))**2) / (np.sqrt(2 * np.pi) * std)
-    plt.clf()
-    plt.hist(data[column], bins=30, density=True)
-    plt.plot(x, y, label='RSS')
-    plt.axvline(x=upper_bound, color='red', label='upper bound')
-    plt.axvline(x=mean, color='blue', label='mean')
-    plt.legend(loc='center right')
-    plt.text(0.95, 0.95, "Max: {:.2f}".format(data[column].max()), transform=plt.gca().transAxes, ha='right', va='top')
-    plt.text(0.95, 0.90, "Mean: {:.2f}".format(mean), transform=plt.gca().transAxes, ha='right', va='top')
-    plt.text(0.95, 0.85, "Min: {:.2f}".format(data[column].min()), transform=plt.gca().transAxes, ha='right', va='top')
+    fig, ax = plt.subplots()
+    ax.hist(data[column], bins=30, density=True)
+    ax.plot(x, y, label='RSS')
+    ax.axvline(x=upper_bound, color='red', label='upper bound')
+    ax.axvline(x=mean, color='blue', label='mean')
+    ax.legend(loc='center right')
+    ax.text(0.95, 0.95, "Max: {:.2f}".format(data[column].max()), transform=ax.transAxes, ha='right', va='top')
+    ax.text(0.95, 0.90, "Mean: {:.2f}".format(mean), transform=ax.transAxes, ha='right', va='top')
+    ax.text(0.95, 0.85, "Min: {:.2f}".format(data[column].min()), transform=ax.transAxes, ha='right', va='top')
 
-    # Add title to the plot
-    plt.title(f"RSS Analysis for {column} Column")
+    ax.set_title(f"RSS Analysis for {column} Column")
 
-    st.pyplot()
+    st.pyplot(fig)
 
 
 def main():
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-
     uploaded_file = st.sidebar.file_uploader("", type="csv")
     
     if uploaded_file is not None:
