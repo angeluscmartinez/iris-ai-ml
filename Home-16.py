@@ -7,7 +7,7 @@ import io
 
 # Properly initialize OpenAI API using Streamlit secrets
 openai.api_key = st.secrets["API_key"]
-client = openai.OpenAI(api_key=openai.api_key)
+client = openai.Client(api_key=openai.api_key)
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
@@ -145,6 +145,7 @@ st.components.v1.html(
     """,
     height=0,
 )
+
 
 
 
