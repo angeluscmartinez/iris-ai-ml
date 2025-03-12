@@ -6,7 +6,8 @@ from streamlit_lottie import st_lottie
 import io
 
 # Properly initialize OpenAI API using Streamlit secrets
-client = openai.OpenAI(api_key=st.secrets["API_key"])
+from openai import OpenAI
+client = OpenAI(api_key=st.secrets["API_key"])
 # OpenAI client is not needed in latest versions, use openai.ChatCompletion directly
 
 def load_lottiefile(filepath: str):
@@ -145,6 +146,7 @@ st.components.v1.html(
     """,
     height=0,
 )
+
 
 
 
