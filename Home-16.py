@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
-from openai import OpenAI
+import openai
 import json
 from streamlit_lottie import st_lottie
 import io
 
 # Properly initialize OpenAI API using Streamlit secrets
-client = OpenAI(api_key=st.secrets["API_key"])
+client = openai.OpenAI(api_key=st.secrets["API_key"])
 # OpenAI client is not needed in latest versions, use openai.ChatCompletion directly
 
 def load_lottiefile(filepath: str):
