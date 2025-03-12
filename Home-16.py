@@ -103,9 +103,9 @@ def generate_response(prompt):
         query_context = f"Relevant data from CSV:\n{csv_snippet}\nUser question: {prompt}"
 
     try:
-        response = openai.Completion.create(
+        response = openai.ChatCompletion.create(
             model="gpt-4",
-            messages=[
+            prompt=[
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": query_context}
             ],
@@ -145,6 +145,7 @@ st.components.v1.html(
     """,
     height=0,
 )
+
 
 
 
