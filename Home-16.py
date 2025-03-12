@@ -7,7 +7,6 @@ import io
 
 # Properly initialize OpenAI client
 openai.api_key = st.secrets["API_key"]
-client = openai.Client(api_key=openai.api_key)
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
