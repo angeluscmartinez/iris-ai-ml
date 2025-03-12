@@ -5,7 +5,7 @@ import json
 from streamlit_lottie import st_lottie
 import io
 
-#openai.api_key = "
+#openai.api_key = ""
 openai.api_key = st.secrets["API_key"]
 
 def load_lottiefile(filepath: str):
@@ -13,7 +13,7 @@ def load_lottiefile(filepath: str):
         return json.load(f)
 
 st.set_page_config(page_title="iRIS Agent", page_icon=":guardsman:")
-#image = st.image("Picture1.png", use_container_width=False)
+image = st.image("Picture1.png", use_container_width=False)
 
 hide_st_style = """
             <style>
