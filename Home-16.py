@@ -9,8 +9,8 @@ import io
 import openai
 import openai
 import openai
-from openai import OpenAI
-client = OpenAI(api_key=st.secrets["API_key"])
+import openai
+client = openai.Client(api_key=st.secrets["API_key"])
 # OpenAI client is not needed in latest versions, use openai.ChatCompletion directly
 
 def load_lottiefile(filepath: str):
