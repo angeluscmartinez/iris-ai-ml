@@ -1,13 +1,12 @@
 import streamlit as st
-from openai import OpenAI
+import openai
 import pandas as pd
 import json
 from streamlit_lottie import st_lottie
 import io
 
 # Properly initialize OpenAI client
-
-client = OpenAI(api_key=st.secrets["API_key"])
+client = openai.Client(api_key=st.secrets["API_key"])
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
@@ -145,3 +144,4 @@ st.components.v1.html(
     """,
     height=0,
 )
+
