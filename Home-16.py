@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
-import openai
+from openai import OpenAI
 import json
 from streamlit_lottie import st_lottie
 import io
 
 # Properly initialize OpenAI API using Streamlit secrets
-openai.api_key = st.secrets["API_key"]
+client = OpenAI(api_key=st.secrets["API_key"])
 # OpenAI client is not needed in latest versions, use openai.ChatCompletion directly
 
 def load_lottiefile(filepath: str):
@@ -103,7 +103,7 @@ def generate_response(prompt):
         query_context = f"Relevant data from CSV:\n{csv_snippet}\nUser question: {prompt}"
 
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
