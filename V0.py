@@ -1,38 +1,36 @@
 import streamlit as st
-import openai  # Correct import
+import openai
 
 st.title("Angel's Awesome Chatbot")
 
-openai.api_key = st.secrets["API_key"]  # Correct API key initialization
+openai.api_key = st.secrets["API_key"]
 
 # Chat History
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+# Display previous messages
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    role = "👤 User" if message["role"] == "user" else "🤖 Assistant"
+    st.markdown(f"**{role}:** {message['content']}")
 
-# Use st.text_input() instead of st.chat_input() for broader compatibility
+# Use st.text_input() instead of chat_input for better compatibility
 prompt = st.text_input("Say something", "")
 
 if prompt:
-    with st.chat_message("user"):
-        st.markdown(prompt)
+    st.markdown(f"**👤 User:** {prompt}")  # Display user input
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    with st.chat_message("assistant"):
-        stream = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=st.session_state.messages,
-            stream=True
-        )
-        response_text = ""
-        for chunk in stream:
-            if "choices" in chunk and len(chunk["choices"]) > 0:
-                response_text += chunk["choices"][0]["delta"].get("content", "")
+    # Generate response
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=st.session_state.messages
+    )
 
-            st.write(response_text)  # Display the response
+    response_text = response["choices"][0]["message"]["content"]
+    st.markdown(f"**🤖 Assistant:** {response_text}")  # Display assistant response
 
-    st.session_state.messages.append({"role": "assistant", "content": response_text})  # Store response correctly
+    # Save to chat history
+    st.session_state.messages.append({"role": "assistant", "content": response_text})
+
 
