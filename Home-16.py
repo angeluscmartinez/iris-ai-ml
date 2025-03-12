@@ -7,7 +7,7 @@ import io
 
 # Properly initialize OpenAI API using Streamlit secrets
 openai.api_key = st.secrets["API_key"]
-client = openai.Client(api_key=openai.api_key)
+# OpenAI client is not needed in latest versions, use openai.ChatCompletion directly
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
