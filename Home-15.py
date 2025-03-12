@@ -13,7 +13,7 @@ def load_lottiefile(filepath: str):
         return json.load(f)
 
 st.set_page_config(page_title="iRIS Agent", page_icon=":guardsman:")
-image = st.image("Picture1.png", use_container_width=False)
+#image = st.image("Picture1.png", use_container_width=False)
 
 hide_st_style = """
             <style>
