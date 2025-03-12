@@ -1,9 +1,9 @@
 import streamlit as st
-from openai import OpenAI
+import openai  # Correct import
 
 st.title("Angel's Awesome Chatbot")
 
-client = OpenAI(api_key=st.secrets["API_key"])
+openai.api_key = st.secrets["API_key"]  # Correct API key initialization
 
 # Chat History
 if "messages" not in st.session_state:
@@ -20,10 +20,16 @@ if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
 
     with st.chat_message("assistant"):
-        stream = client.chat.completions.create(
+        stream = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=st.session_state.messages,
             stream=True
         )
-        response = st.write_stream(stream)
-    st.session_state.messages.append({"role": "assistant", "content": response})
+        response_text = ""
+        for chunk in stream:
+            if "choices" in chunk and len(chunk["choices"]) > 0:
+                response_text += chunk["choices"][0]["delta"].get("content", "")
+
+            st.write(response_text)  # Display the response
+
+    st.session_state.messages.append({"role": "assistant", "content": response_text})  # Store response correctly
