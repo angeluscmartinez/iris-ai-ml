@@ -6,7 +6,7 @@ from streamlit_lottie import st_lottie
 import io
 
 # Properly initialize OpenAI client
-openai.api_key = "API_key"
+openai.api_key = st.secrets["API_key"]
 client = openai.Client(api_key=openai.api_key)
 
 def load_lottiefile(filepath: str):
