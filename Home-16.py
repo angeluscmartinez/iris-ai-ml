@@ -5,8 +5,8 @@ import json
 from streamlit_lottie import st_lottie
 import io
 
-# Correct OpenAI API Key setup
-client = openai.OpenAI(api_key=st.secrets["API_key"])
+# ✅ Correct OpenAI API Key setup
+client = openai.AsyncOpenAI(api_key=st.secrets["API_key"])
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
@@ -102,7 +102,7 @@ def generate_response(prompt):
         query_context = f"Relevant data from CSV:\n{csv_snippet}\nUser question: {prompt}"
 
     try:
-        # Correct OpenAI API call for v1.66.2
+        # ✅ Correct OpenAI API call for v1.66.2
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
@@ -145,6 +145,7 @@ st.components.v1.html(
     """,
     height=0,
 )
+
 
 
 
