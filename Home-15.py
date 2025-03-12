@@ -6,7 +6,8 @@ from streamlit_lottie import st_lottie
 from fuzzywuzzy import process
 import io
 
-openai.api_key = "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"
+#openai.api_key = "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"
+openai.api_key = st.secrets["API_key"]
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
