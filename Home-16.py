@@ -5,8 +5,8 @@ import json
 from streamlit_lottie import st_lottie
 import io
 
-#openai.api_key = ""
 openai.api_key = st.secrets["API_key"]
+#openai.api_key = ""
 
 def load_lottiefile(filepath: str):
     with open(filepath, "r") as f:
@@ -50,14 +50,12 @@ with col2:
         key=None,
     )
 
-# Initialize session state variables if not present
 if "uploaded_content" not in st.session_state:
     st.session_state.uploaded_content = ""
     st.session_state.uploaded_df = None
     st.session_state.show_upload_widget = True
-    st.session_state.needs_rerun = False  # New flag for rerunning safely
+    st.session_state.needs_rerun = False
 
-# File Upload Section
 if st.session_state.show_upload_widget:
     with st.container():
         st.markdown('<div class="upload-container">', unsafe_allow_html=True)
@@ -80,25 +78,22 @@ if st.session_state.show_upload_widget:
                 uploaded_df = pd.read_csv(uploaded_file)
                 st.session_state.uploaded_df = uploaded_df
             
-            # Hide the upload widget and set the rerun flag
             st.session_state.show_upload_widget = False
             st.session_state.needs_rerun = True
 
-# Safe way to trigger rerun after an upload
 if st.session_state.needs_rerun:
-    st.session_state.needs_rerun = False  # Reset flag before rerun to avoid infinite loops
+    st.session_state.needs_rerun = False
     try:
         st.rerun()
     except Exception as e:
         st.error(f"Rerun failed: {e}")
 
-# Chat History
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 def generate_response(prompt):
     query_context = prompt
-    
+
     if st.session_state.uploaded_content:
         query_context = f"Relevant document content: {st.session_state.uploaded_content}\nUser question: {prompt}"
     elif st.session_state.uploaded_df is not None:
@@ -106,16 +101,21 @@ def generate_response(prompt):
         csv_snippet = limited_df.to_csv(index=False)
         query_context = f"Relevant data from CSV:\n{csv_snippet}\nUser question: {prompt}"
 
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[{"role": "system", "content": "You are a helpful assistant."},
-                  {"role": "user", "content": query_context}],
-        max_tokens=1000,
-        temperature=0.7,
-    )
-    return response['choices'][0]['message']['content']
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": query_context}
+            ],
+            max_tokens=1000,
+            temperature=0.7
+        )
+        return response.choices[0].message.content  
 
-# User Input Form
+    except Exception as e:
+        return f"Error: {e}"
+
 with st.form(key="input_form", clear_on_submit=True):
     user_input = st.text_input("You: ", key="user_input", placeholder="Type your message here...", label_visibility='visible')
     submit_button = st.form_submit_button(label="Submit")
@@ -125,14 +125,12 @@ if submit_button and user_input:
     response = generate_response(user_input)
     st.session_state.messages.insert(0, {"role": "assistant", "content": response})
 
-# Display chat messages
 for message in st.session_state.messages:
     if message["role"] == "user":
         st.write(f"You: {message['content']}")
     elif message["role"] == "assistant":
         st.write(f"iRIS AI: {message['content']}")
 
-# Auto-focus input field
 st.components.v1.html(
     """
     <script>
