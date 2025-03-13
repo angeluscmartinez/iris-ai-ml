@@ -1,10 +1,10 @@
 import streamlit as st
-import openai  # ✅ Correct import
+import openai  # Correct import for OpenAI SDK v1.66.3
 
 st.title("Angel's Awesome Chatbot")
 
-# Set API key for OpenAI
-openai.api_key = st.secrets["API_key"]  # ✅ Correct way to set API key
+# Initialize OpenAI client correctly
+client = openai.OpenAI(api_key=st.secrets["API_key"])  # Correct API key usage
 
 # Chat History
 if "messages" not in st.session_state:
@@ -22,17 +22,18 @@ if prompt:
     st.markdown(f"**👤 User:** {prompt}")  # Display user input
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-    # Correct OpenAI API call
-    response = openai.ChatCompletion.create(
+    # Correct API call for OpenAI
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=st.session_state.messages
     )
 
-    response_text = response["choices"][0]["message"]["content"]  # ✅ Correct response extraction
+    response_text = response.choices[0].message.content  # Extract response
     st.markdown(f"**🤖 Assistant:** {response_text}")  # Display assistant response
 
     # Save to chat history
     st.session_state.messages.append({"role": "assistant", "content": response_text})
+
 
 
 
